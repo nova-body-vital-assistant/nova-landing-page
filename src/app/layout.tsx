@@ -13,14 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NOVA — AI-Powered Fall Detection System",
+  title: "NOVA — Human Risk Intelligence",
   description:
-    "Stay safe and independent with NOVA — the complete fall detection system featuring a smart vest, precision smartwatch, and AI-powered mobile app. 99.8% accuracy, instant alerts.",
-  keywords: "fall detection, smart vest, fall alert, elderly safety, wearable technology, NOVA",
+    "NOVA Intelligence is a Human Risk Intelligence Platform that turns continuous multimodal data into coordinated action for caregivers, families, care organizations, and risk partners.",
+  keywords:
+    "human risk intelligence, risk intelligence platform, longitudinal risk modeling, multimodal data fusion, eldercare risk monitoring, device-agnostic risk platform, NOVA Intelligence, NOVA",
   openGraph: {
-    title: "NOVA — AI-Powered Fall Detection System",
+    title: "NOVA — Human Risk Intelligence",
     description:
-      "The complete fall detection system. Smart vest + smartwatch + app. 24/7 protection for your loved ones.",
+      "One intelligence layer for everyone responsible for care — caregivers, families, care organizations, and risk partners.",
     type: "website",
   },
 };
