@@ -110,7 +110,7 @@ function SectionHead({
 }) {
   const { ref, visible } = useReveal();
   return (
-    <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} ${width} mx-auto text-center mb-14`}>
+    <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} ${width} mx-auto text-center mb-10`}>
       <Eyebrow on={on}>{eyebrow}</Eyebrow>
       <h2 className={`text-4xl md:text-[2.6rem] font-medium tracking-[-0.5px] mb-4 leading-tight ${on === 'dark' ? 'text-on-dark' : 'text-ink'}`}>
         {title}
@@ -380,13 +380,13 @@ function ProblemSection() {
     { mark: '03', title: 'Limited Context',      desc: 'A single measurement rarely explains whether someone’s overall risk is actually changing over time.' },
   ];
   return (
-    <section className="py-28 bg-white">
+    <section className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="The Problem"
           title="Human data is continuous. Risk management isn't."
           sub={
-            <>Wearables capture physiology. Phones capture movement and context. Care systems maintain historical information. Incidents generate additional data — but these signals often remain isolated, so organizations end up responding to individual alerts rather than understanding how risk is evolving.</>
+            <>Wearables capture physiology. Phones capture movement. Care systems hold the history. Incidents add more. But the signals stay in separate places — so organizations answer alerts one at a time instead of seeing how risk is moving.</>
           }
           width="max-w-3xl"
         />
@@ -421,7 +421,7 @@ function PlatformSection() {
   ];
 
   return (
-    <section id="platform" className="py-28 bg-brand-teal-deep relative overflow-hidden">
+    <section id="platform" className="py-20 bg-brand-teal-deep relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden>
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, #00ed64 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
       </div>
@@ -430,7 +430,7 @@ function PlatformSection() {
           on="dark"
           eyebrow="The Platform"
           title="From monitoring to understanding."
-          sub="NOVA Intelligence is a Human Risk Intelligence Platform designed to transform fragmented signals into an evolving understanding of individual risk."
+          sub="Fragmented signals in. An evolving understanding of each individual's risk out."
           width="max-w-2xl"
         />
 
@@ -460,6 +460,22 @@ function PlatformSection() {
             </div>
           ))}
         </div>
+
+        {/* The pipeline, one line per step */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          {[
+            ['01', 'Connect', 'Integrate signals from the devices and systems already in place.'],
+            ['02', 'Understand', 'Establish each individual baseline and read it in context.'],
+            ['03', 'Identify change', 'Detect the deviations that mark a real shift in risk.'],
+            ['04', 'Act', 'Surface states, trends, and alerts to whoever must intervene.'],
+          ].map(([n, title, desc]) => (
+            <div key={n} className="glass-dark rounded-xl border border-white/8 p-5">
+              <div className="text-brand-green text-[10px] font-bold tracking-widest mb-2">{n}</div>
+              <div className="text-sm font-semibold text-on-dark mb-1.5">{title}</div>
+              <p className="text-xs text-on-dark-muted leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -480,7 +496,7 @@ function EcosystemSection() {
   );
 
   return (
-    <section id="ecosystem" className="py-28 bg-brand-teal-deep relative overflow-hidden">
+    <section id="ecosystem" className="py-20 bg-brand-teal-deep relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden>
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, #00ed64 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
       </div>
@@ -490,7 +506,7 @@ function EcosystemSection() {
           on="dark"
           eyebrow="The Ecosystem"
           title={<>One person. <span className="gradient-text-green">Multiple layers of value.</span></>}
-          sub="NOVA Intelligence transforms continuous signals into different forms of actionable intelligence for the people and organizations responsible for safety, care, and risk."
+          sub="The same signals mean different things to a caregiver, a family, a facility, and an insurer. NOVA gives each of them the version they can act on."
           width="max-w-3xl"
         />
 
@@ -561,7 +577,7 @@ function StakeholderBlock({
   const { ref, visible } = useReveal();
   return (
     <div ref={ref as React.RefObject<HTMLDivElement>}
-      className={`reveal ${visible ? 'visible' : ''} grid lg:grid-cols-2 gap-10 items-center py-14 border-t border-hairline first:border-t-0`}
+      className={`reveal ${visible ? 'visible' : ''} grid lg:grid-cols-2 gap-10 items-center py-10 border-t border-hairline first:border-t-0`}
       style={{ transitionDelay: `${delay}ms` }}>
       <div>
         <div className="flex items-center gap-2.5 mb-4">
@@ -623,7 +639,7 @@ function StakeholdersSection() {
   ];
 
   return (
-    <section id="stakeholders" className="py-24 bg-white">
+    <section id="stakeholders" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
 
         {/* 1 — INDIVIDUAL */}
@@ -791,48 +807,6 @@ function StakeholdersSection() {
   );
 }
 
-// ─── HOW IT WORKS ──────────────────────────────────────────────────────────────
-
-function HowItWorksSection() {
-  const steps = [
-    { n: '01', title: 'Connect',       desc: 'Integrate continuous signals from existing devices, applications, and connected systems.' },
-    { n: '02', title: 'Understand',    desc: 'Establish individual baselines and contextualize multimodal data over time.' },
-    { n: '03', title: 'Identify Change', desc: 'Detect patterns and deviations associated with meaningful changes in risk.' },
-    { n: '04', title: 'Act',           desc: 'Surface risk states, trends, alerts, and historical intelligence to the organizations responsible for intervention.' },
-  ];
-  return (
-    <section className="py-28 bg-surface-green">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHead eyebrow="How It Works" title="An intelligence pipeline, not a single alert." width="max-w-2xl" />
-        <div className="grid md:grid-cols-4 gap-5 relative">
-          {steps.map((s, i) => (
-            <StepCard key={s.n} step={s} delay={i * 100} last={i === steps.length - 1} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StepCard({ step, delay, last }: { step: { n: string; title: string; desc: string }; delay: number; last: boolean }) {
-  const { ref, visible } = useReveal();
-  return (
-    <div ref={ref as React.RefObject<HTMLDivElement>}
-      className={`reveal ${visible ? 'visible' : ''} relative bg-white rounded-2xl border border-hairline p-6`}
-      style={{ transitionDelay: `${delay}ms` }}>
-      <div className="text-[11px] font-bold tracking-widest text-brand-green-dark mb-3">{step.n}</div>
-      <h3 className="text-lg font-semibold text-ink mb-2">{step.title}</h3>
-      <p className="text-sm text-steel leading-relaxed">{step.desc}</p>
-      {!last && (
-        <div className="hidden md:flex absolute top-1/2 -right-4 -translate-y-1/2 text-brand-green-dark/40 z-10">
-          <ArrowRight cls="w-4 h-4" />
-        </div>
-      )}
-    </div>
-  );
-}
-
-
 // ─── PRODUCT OVERVIEW (SOFTWARE) ───────────────────────────────────────────────
 
 function ProductOverviewSection() {
@@ -844,16 +818,16 @@ function ProductOverviewSection() {
     { src: '/images/product/app-activity.png',    name: 'Activity',    desc: 'Event timeline building the longitudinal record over time.' },
   ];
   return (
-    <section id="product" className="py-28 bg-white">
+    <section id="product" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Product Overview"
-          title="The software, in practice."
-          sub="NOVA Intelligence is delivered as software: a monitoring and prioritization app for caregivers and families, and an analytics layer for organizations."
+          title="What it looks like in the hand."
+          sub="An app for caregivers and families, an analytics layer for the organizations behind them."
           width="max-w-2xl"
         />
 
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16`}>
+        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12`}>
           {screens.map((sc, i) => (
             <div key={sc.name} className="flex flex-col items-center text-center" style={{ transitionDelay: `${i * 80}ms` }}>
               <div className="rounded-[1.5rem] border border-hairline bg-surface-soft overflow-hidden shadow-sm mb-4 w-full max-w-[240px] aspect-[10/21]">
@@ -888,82 +862,77 @@ function ProductOverviewSection() {
   );
 }
 
-// ─── FROM INDIVIDUAL TO POPULATION ─────────────────────────────────────────────
+// ─── COMPOUNDING VALUE (SCALE + FLYWHEEL) ──────────────────────────────────────
 
-function ScaleSection() {
+function CompoundingSection() {
   const { ref, visible } = useReveal();
   const steps = [
-    { scale: '1 person',            label: 'Personal risk profile',            w: '20%' },
-    { scale: '1 caregiver team',    label: 'Real-time prioritization',         w: '40%' },
-    { scale: '1 facility',          label: 'Population risk intelligence',     w: '60%' },
-    { scale: '10 facilities',       label: 'Cross-facility analytics',         w: '80%' },
-    { scale: 'Insurance / network', label: 'Population prevention programs',   w: '100%' },
+    { scale: '1 person',            label: 'Personal risk profile',          w: '20%' },
+    { scale: '1 caregiver team',    label: 'Real-time prioritization',       w: '40%' },
+    { scale: '1 facility',          label: 'Population risk intelligence',   w: '60%' },
+    { scale: '10 facilities',       label: 'Cross-facility analytics',       w: '80%' },
+    { scale: 'Insurance / network', label: 'Population prevention programs', w: '100%' },
   ];
-  return (
-    <section className="py-28 bg-surface-green">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHead
-          eyebrow="Scalability"
-          title="From one individual to population-level risk intelligence."
-          sub="The same intelligence layer can support immediate care decisions at the individual level and broader prevention strategies at organizational scale."
-          width="max-w-2xl"
-        />
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} max-w-3xl mx-auto space-y-3`}>
-          {steps.map((st, i) => (
-            <div key={st.scale} className="bg-white rounded-2xl border border-hairline p-5">
-              <div className="flex items-baseline justify-between gap-4 mb-2.5">
-                <span className="text-sm font-semibold text-ink">{st.scale}</span>
-                <span className="text-xs text-steel text-right">{st.label}</span>
-              </div>
-              <div className="h-1.5 rounded-full bg-surface-soft overflow-hidden">
-                <div className="h-full rounded-full bg-brand-green transition-all duration-1000"
-                  style={{ width: visible ? st.w : '0%', transitionDelay: `${i * 120}ms` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── VALUE FLYWHEEL ────────────────────────────────────────────────────────────
-
-function FlywheelSection() {
-  const { ref, visible } = useReveal();
   const loop = [
     'More monitored individuals',
     'More longitudinal risk history',
     'More validated events and interventions',
     'Better population-level understanding',
     'More valuable institutional intelligence',
-    'More care organizations and partners',
+    'More organizations and partners',
   ];
   return (
-    <section className="py-28 bg-canvas-dark relative overflow-hidden">
+    <section className="py-20 bg-canvas-dark relative overflow-hidden">
       <div className="relative max-w-[1280px] mx-auto px-6">
         <SectionHead
           on="dark"
-          eyebrow="Compounding Value"
-          title="Intelligence that becomes more valuable over time."
-          sub="NOVA is designed to accumulate longitudinal context across normal states, risk changes, incidents, interventions, and outcomes."
-          width="max-w-2xl"
+          eyebrow="Why It Compounds"
+          title={<>One layer, from a single person to <span className="gradient-text-green">a whole network.</span></>}
+          sub="The same intelligence serves an urgent decision about one individual and a prevention strategy across thousands — and every validated event makes the next judgement better informed."
+          width="max-w-3xl"
         />
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10`}>
-          {loop.map((l, i) => (
-            <div key={l} className="glass-dark rounded-2xl border border-white/8 p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-brand-green text-[10px] font-bold tracking-widest">{String(i + 1).padStart(2, '0')}</span>
-                <span className="h-px flex-1 bg-white/10" />
-                {i === loop.length - 1 && <span className="text-brand-green text-[10px] font-bold uppercase tracking-wide">loops back</span>}
-              </div>
-              <div className="text-sm font-medium text-on-dark leading-snug">{l}</div>
+
+        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid lg:grid-cols-2 gap-10`}>
+          {/* Left: scale ladder */}
+          <div>
+            <div className="text-[10px] font-bold tracking-widest uppercase text-on-dark-muted mb-5">Same layer, wider scope</div>
+            <div className="space-y-3">
+              {steps.map((st, i) => (
+                <div key={st.scale} className="glass-dark rounded-xl border border-white/8 p-4">
+                  <div className="flex items-baseline justify-between gap-4 mb-2">
+                    <span className="text-sm font-semibold text-on-dark">{st.scale}</span>
+                    <span className="text-xs text-on-dark-muted text-right">{st.label}</span>
+                  </div>
+                  <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+                    <div className="h-full rounded-full bg-brand-green transition-all duration-1000"
+                      style={{ width: visible ? st.w : '0%', transitionDelay: `${i * 110}ms` }} />
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Right: flywheel */}
+          <div>
+            <div className="text-[10px] font-bold tracking-widest uppercase text-on-dark-muted mb-5">The loop</div>
+            <div className="space-y-2">
+              {loop.map((l, i) => (
+                <div key={l}>
+                  <div className="flex items-center gap-3 glass-dark rounded-xl border border-white/8 px-4 py-3">
+                    <span className="text-brand-green text-[10px] font-bold tracking-widest flex-shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="text-sm text-on-dark leading-snug">{l}</span>
+                    {i === loop.length - 1 && (
+                      <span className="ml-auto text-brand-green text-[9px] font-bold uppercase tracking-wide flex-shrink-0">loops back</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-on-dark-muted leading-relaxed mt-5">
+              As appropriately governed longitudinal data grows, NOVA can support increasingly robust analysis, validation, and future model development.
+            </p>
+          </div>
         </div>
-        <p className="text-center text-on-dark-muted text-sm max-w-2xl mx-auto">
-          As appropriately governed longitudinal data grows, NOVA can support increasingly robust analysis, validation, and future model development.
-        </p>
       </div>
     </section>
   );
@@ -980,12 +949,12 @@ function BusinessModelSection() {
     { mark: '05', title: 'Insurance & Risk Programs', desc: 'Large-scale prevention programs, analytics, and engagement infrastructure.' },
   ];
   return (
-    <section className="py-28 bg-white">
+    <section className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Business Model"
-          title="A layered model on one intelligence platform."
-          sub="A single monitored individual can create multiple layers of value across the care ecosystem."
+          title="One platform, five ways it earns."
+          sub="One monitored individual creates value at five levels at once."
           width="max-w-2xl"
         />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
@@ -994,193 +963,165 @@ function BusinessModelSection() {
               color="text-brand-green-dark bg-brand-green/10 border-brand-green/25" delay={i * 80} />
           ))}
         </div>
-        <p className="text-center text-[11px] text-stone">
+        <p className="text-center text-[11px] text-stone mb-12">
           Pricing is not yet finalized. Commercial structure is being shaped together with early partners.
         </p>
-      </div>
-    </section>
-  );
-}
 
-// ─── PERSONALIZED RISK INTELLIGENCE ────────────────────────────────────────────
-
-function PersonalizedSection() {
-  const { ref, visible } = useReveal();
-  const factors = ['Motion changes', 'Sleep or activity patterns', 'Previous incidents', 'Vital trends', 'Mobility', 'Location / context', 'Individual history'];
-  return (
-    <section className="py-28 bg-white">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHead
-          eyebrow="Personalization"
-          title="Risk is personal. Intelligence should be too."
-          sub="Fixed, universal thresholds can miss individual context. NOVA Intelligence is designed around personalized baselines and longitudinal change, not one-size-fits-all cutoffs."
-          width="max-w-2xl"
-        />
-
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid lg:grid-cols-2 gap-6 mb-10`}>
-          {[
-            { who: 'Person A', normal: '60–70 bpm', current: '82 bpm', flag: true },
-            { who: 'Person B', normal: '80–90 bpm', current: '82 bpm', flag: false },
-          ].map(p => (
-            <div key={p.who} className="rounded-2xl border border-hairline bg-surface-soft p-6">
-              <div className="text-xs font-semibold text-stone uppercase tracking-wide mb-4">{p.who}</div>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <div className="text-[11px] text-stone mb-1">Normal range</div>
-                  <div className="text-lg font-semibold text-ink">{p.normal}</div>
-                </div>
-                <div>
-                  <div className="text-[11px] text-stone mb-1">Current reading</div>
-                  <div className={`text-lg font-semibold ${p.flag ? 'text-amber-600' : 'text-brand-green-dark'}`}>{p.current}</div>
-                </div>
-              </div>
-              <div className={`text-xs rounded-lg px-3 py-2 ${p.flag ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'}`}>
-                {p.flag ? 'Meaningful deviation from personal baseline' : 'Consistent with personal baseline'}
-              </div>
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-steel text-sm max-w-xl mx-auto mb-10">
-          The same reading — <strong className="text-ink">82 bpm</strong> — does not necessarily represent the same risk context for two different people.
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {factors.map(f => (
-            <span key={f} className="text-xs font-medium text-charcoal bg-surface-soft border border-hairline rounded-full px-3.5 py-1.5">{f}</span>
-          ))}
-        </div>
-        <div className="flex justify-center">
-          <div className="inline-flex items-center gap-2 bg-brand-green text-on-primary text-sm font-semibold rounded-full px-5 py-2.5">
-            Personal Risk Profile
+        {/* Market, folded in: the same layers priced against a real population */}
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-6">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-2">Where we start</div>
+            <h3 className="text-2xl font-medium text-ink tracking-[-0.3px]">Indonesia&apos;s aging population first.</h3>
           </div>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              ['TAM', '$1.9B', '32M people',    'Older adults in Indonesia (2023)'],
+              ['SAM', '$192M', '3.2M people',   'Reachable via institutional partners'],
+              ['SOM', '$3M',   '50,000 people', 'Early-stage target across first pilots'],
+            ].map(([k, v, users, desc]) => (
+              <div key={k} className="rounded-2xl border border-hairline bg-surface-soft p-5">
+                <div className="text-[10px] font-bold tracking-widest uppercase text-stone mb-2">{k}</div>
+                <div className="text-2xl font-medium text-ink tracking-[-0.5px]">{v}</div>
+                <div className="text-xs text-steel mt-0.5 mb-2">{users}</div>
+                <p className="text-[11px] text-stone leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-[11px] text-stone mt-5">
+            Internal estimates from population data. Planning targets, not realized revenue.
+          </p>
         </div>
       </div>
     </section>
   );
 }
 
-// ─── RISK STATES ───────────────────────────────────────────────────────────────
+// ─── THE RISK MODEL (PERSONAL + STATES + TIMELINE) ─────────────────────────────
 
-function RiskStatesSection() {
+function RiskModelSection() {
   const { ref, visible } = useReveal();
-  const [activeState, setActiveState] = useState(0);
+  const [active, setActive] = useState(0);
 
   const states = [
     {
       key: 'normal', label: 'Normal', dot: 'bg-brand-green', ring: 'ring-brand-green/40',
-      bg: 'bg-[#f0fdf9]', border: 'border-brand-green/30', hdr: 'text-brand-green-dark',
-      headline: "Signals remain consistent with the individual's expected baseline.",
-      desc: "During the Normal state, NOVA Intelligence continuously contextualizes available multimodal signals against each individual's personal baseline. No intervention is triggered — the platform quietly refines its understanding of what “normal” looks like for that person.",
-      actions: ['Continuous multimodal signal ingestion', 'Personalized baseline construction', 'Passive pattern & trend logging', 'No action required from the individual'],
+      bg: 'bg-[#f0fdf9]', border: 'border-brand-green/30', hdr: 'text-brand-green-dark', chk: 'text-brand-green',
+      headline: 'Signals sit where this person normally sits.',
+      desc: 'NOVA reads available signals against the individual’s own baseline and keeps refining what normal looks like for them. Nothing is triggered.',
+      actions: ['Continuous multimodal ingestion', 'Personalized baseline construction', 'Passive pattern and trend logging', 'Nothing asked of the individual'],
     },
     {
       key: 'risk', label: 'Elevated Risk', dot: 'bg-amber-400', ring: 'ring-amber-400/40',
-      bg: 'bg-amber-50', border: 'border-amber-300/50', hdr: 'text-amber-700',
-      headline: 'Meaningful deviations suggest increased attention may be required.',
-      desc: "The Elevated Risk state reflects NOVA Intelligence's prevention-oriented design: combinations of signals — instability, unusual inactivity, abnormal patterns — that deviate meaningfully from an individual's baseline surface here, before they escalate.",
-      actions: ['Deviation & pattern-change detection', 'Configurable attention thresholds', 'Caregiver / safety-officer notifications', 'Recommended follow-up workflows (institutional)'],
+      bg: 'bg-amber-50', border: 'border-amber-300/50', hdr: 'text-amber-700', chk: 'text-amber-500',
+      headline: 'Something has shifted, and it is worth attention now.',
+      desc: 'This is the prevention layer. Instability, unusual inactivity, or a combination of signals that deviates meaningfully from baseline surfaces here — before it becomes an incident.',
+      actions: ['Deviation and pattern-change detection', 'Configurable attention thresholds', 'Caregiver and safety-officer notification', 'Recommended follow-up workflows'],
     },
     {
       key: 'event', label: 'Critical Event', dot: 'bg-red-400', ring: 'ring-red-400/40',
-      bg: 'bg-red-50', border: 'border-red-300/50', hdr: 'text-red-700',
-      headline: 'A significant event or pattern triggers escalation.',
-      desc: 'When a pattern consistent with a critical event is identified, NOVA Intelligence escalates according to configured institutional workflows and logs the full signal context for later review.',
-      actions: ['Configurable escalation workflows', 'Structured incident logging with signal context', 'Example events: fall, unusual immobility, abnormal transition, physiological deviation', 'Capabilities depend on connected data sources & validated models'],
+      bg: 'bg-red-50', border: 'border-red-300/50', hdr: 'text-red-700', chk: 'text-red-400',
+      headline: 'Escalate, on the organization’s own terms.',
+      desc: 'A pattern consistent with a critical event escalates through configured institutional workflows, logging the full signal context for review afterwards.',
+      actions: ['Configurable escalation workflows', 'Structured incident logging with context', 'Fall, immobility, abnormal transition, physiological deviation', 'Capabilities follow connected sources and validated models'],
     },
   ];
+  const st = states[active];
 
-  const s = states[activeState];
+  const timeline = [
+    { label: 'Baseline', dot: 'bg-brand-green' },
+    { label: 'Subtle change', dot: 'bg-brand-green-mid' },
+    { label: 'Elevated risk', dot: 'bg-amber-400' },
+    { label: 'Event', dot: 'bg-red-400' },
+    { label: 'Recovery', dot: 'bg-amber-400' },
+    { label: 'New baseline', dot: 'bg-brand-green' },
+  ];
 
   return (
-    <section id="risk-states" className="py-28 bg-white">
+    <section id="risk-model" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
-          eyebrow="Core Concept"
-          title="A three-state operational risk model."
-          sub={<>Unlike binary alert systems, NOVA introduces an <strong className="text-ink">Elevated Risk</strong> layer — the difference between reacting to events and understanding risk as it changes.</>}
-          width="max-w-2xl"
+          eyebrow="The Risk Model"
+          title={<>Risk is personal, and it <span className="gradient-text-green">moves.</span></>}
+          sub="A fixed threshold treats two different people as the same person, and a single reading treats a moment as the whole story. NOVA is built against both assumptions."
+          width="max-w-3xl"
         />
 
-        <div className="flex justify-center gap-3 mb-12 flex-wrap">
-          {states.map((st, i) => (
-            <button
-              key={st.key}
-              onClick={() => setActiveState(i)}
+        {/* Proof: same number, different meaning */}
+        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid lg:grid-cols-[1fr_auto_1fr] gap-4 items-center max-w-3xl mx-auto mb-6`}>
+          {[
+            { who: 'Person A', normal: '60–70 bpm', flag: true,  verdict: 'Meaningful deviation' },
+            { who: 'Person B', normal: '80–90 bpm', flag: false, verdict: 'Consistent with baseline' },
+          ].map((pp, i) => (
+            <div key={pp.who} className={`contents lg:block`}>
+              <div className="rounded-2xl border border-hairline bg-surface-soft p-6">
+                <div className="text-xs font-semibold text-stone uppercase tracking-wide mb-3">{pp.who}</div>
+                <div className="text-[11px] text-stone mb-1">Their normal range</div>
+                <div className="text-lg font-semibold text-ink mb-4">{pp.normal}</div>
+                <div className={`text-xs rounded-lg px-3 py-2 border ${pp.flag ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-brand-green-soft text-brand-green-dark border-brand-green/20'}`}>
+                  {pp.verdict}
+                </div>
+              </div>
+              {i === 0 && (
+                <div className="hidden lg:flex flex-col items-center justify-center px-2">
+                  <div className="text-2xl font-medium text-ink tracking-[-0.5px]">82</div>
+                  <div className="text-[10px] text-stone uppercase tracking-widest">both read</div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-steel text-sm max-w-xl mx-auto mb-12">
+          The same <strong className="text-ink">82 bpm</strong> is unremarkable in one person and a warning in the other. Baselines are built per individual from motion, sleep, activity, vitals, mobility, context, and prior incidents.
+        </p>
+
+        {/* Three states */}
+        <div className="flex justify-center gap-3 mb-8 flex-wrap">
+          {states.map((s2, i) => (
+            <button key={s2.key} onClick={() => setActive(i)}
               className={`flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full border transition-all ${
-                activeState === i
-                  ? `${st.bg} ${st.border} ${st.hdr} border ring-2 ${st.ring} ring-offset-2`
-                  : 'bg-white border-hairline text-steel hover:border-ink/20 hover:text-ink'
-              }`}
-            >
-              <span className={`w-2 h-2 rounded-full ${st.dot}`} />
-              {st.label}
+                active === i ? `${s2.bg} ${s2.border} ${s2.hdr} ring-2 ${s2.ring} ring-offset-2` : 'bg-white border-hairline text-steel hover:border-ink/20 hover:text-ink'
+              }`}>
+              <span className={`w-2 h-2 rounded-full ${s2.dot}`} />
+              {s2.label}
             </button>
           ))}
         </div>
 
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} rounded-[20px] p-8 md:p-12 border transition-all duration-500 ${s.bg} ${s.border} border`}>
-          <div className={`text-xs font-bold tracking-widest uppercase mb-2 ${s.hdr}`}>
-            State {activeState + 1} of 3 — {s.label}
-          </div>
-          <h3 className="text-2xl font-medium text-ink mb-4 leading-snug max-w-2xl">{s.headline}</h3>
-          <p className="text-steel text-[0.95rem] leading-relaxed mb-7 max-w-2xl">{s.desc}</p>
+        <div className={`rounded-[20px] p-8 md:p-10 border transition-all duration-500 mb-10 ${st.bg} ${st.border}`}>
+          <div className={`text-xs font-bold tracking-widest uppercase mb-2 ${st.hdr}`}>State {active + 1} of 3 — {st.label}</div>
+          <h3 className="text-2xl font-medium text-ink mb-3 leading-snug max-w-2xl">{st.headline}</h3>
+          <p className="text-steel text-[0.95rem] leading-relaxed mb-6 max-w-2xl">{st.desc}</p>
           <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
-            {s.actions.map(a => (
-              <li key={a} className="flex items-start gap-2.5 text-sm text-charcoal">
-                <Chk cls={`w-4 h-4 flex-shrink-0 mt-0.5 ${activeState === 0 ? 'text-brand-green' : activeState === 1 ? 'text-amber-500' : 'text-red-400'}`} />
-                {a}
+            {st.actions.map(aa => (
+              <li key={aa} className="flex items-start gap-2.5 text-sm text-charcoal">
+                <Chk cls={`w-4 h-4 flex-shrink-0 mt-0.5 ${st.chk}`} />
+                {aa}
               </li>
             ))}
           </ul>
         </div>
-        <p className="text-center text-xs text-stone mt-6 max-w-xl mx-auto">
-          Available risk states, event types, and thresholds depend on connected data sources, institutional configuration, and validated models.
-        </p>
-      </div>
-    </section>
-  );
-}
 
-// ─── LONGITUDINAL INTELLIGENCE ─────────────────────────────────────────────────
-
-function LongitudinalSection() {
-  const { ref, visible } = useReveal();
-  const stages = [
-    { label: 'Baseline',       dot: 'bg-brand-green' },
-    { label: 'Subtle Change',  dot: 'bg-brand-green-mid' },
-    { label: 'Elevated Risk',  dot: 'bg-amber-400' },
-    { label: 'Event',          dot: 'bg-red-400' },
-    { label: 'Recovery / Intervention', dot: 'bg-amber-400' },
-    { label: 'New Baseline',   dot: 'bg-brand-green' },
-  ];
-  return (
-    <section className="py-28 bg-brand-teal-deep relative overflow-hidden">
-      <div className="relative max-w-[1280px] mx-auto px-6">
-        <SectionHead
-          on="dark"
-          eyebrow="Longitudinal Intelligence"
-          title="A timeline, not a snapshot."
-          sub="NOVA Intelligence is designed to understand human risk over time. Historical events become context for future risk assessment — every meaningful event adds context to what happens next."
-          width="max-w-2xl"
-        />
-
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} glass-dark rounded-2xl border border-white/8 p-8 md:p-10 mb-10`}>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-0">
-            {stages.map((st, i) => (
-              <div key={st.label} className="flex md:flex-col items-center md:flex-1 gap-3 md:gap-2 w-full">
+        {/* Timeline: states are a path, not a label */}
+        <div className="rounded-2xl border border-hairline bg-surface-soft p-8">
+          <div className="text-[10px] font-bold tracking-widest uppercase text-stone mb-6 text-center">A timeline, not a snapshot</div>
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-0 mb-6">
+            {timeline.map((t, i) => (
+              <div key={t.label} className="flex md:flex-col items-center md:flex-1 gap-3 md:gap-2 w-full">
                 <div className="flex items-center w-full md:w-auto md:flex-col">
-                  {i > 0 && <div className="hidden md:block h-px flex-1 bg-white/15" />}
-                  <span className={`w-3 h-3 rounded-full flex-shrink-0 ${st.dot} animate-state`} />
-                  {i < stages.length - 1 && <div className="hidden md:block h-px flex-1 bg-white/15" />}
+                  {i > 0 && <div className="hidden md:block h-px flex-1 bg-hairline" />}
+                  <span className={`w-3 h-3 rounded-full flex-shrink-0 ${t.dot}`} />
+                  {i < timeline.length - 1 && <div className="hidden md:block h-px flex-1 bg-hairline" />}
                 </div>
-                <span className="text-xs md:text-[11px] font-medium text-on-dark md:text-center md:mt-1">{st.label}</span>
+                <span className="text-xs font-medium text-charcoal md:text-center md:mt-1">{t.label}</span>
               </div>
             ))}
           </div>
+          <p className="text-sm text-steel leading-relaxed text-center max-w-2xl mx-auto">
+            Every meaningful event becomes context for the next one. NOVA is designed to hold that history — normal stretches, changes, incidents, interventions, outcomes — as one continuous record per person.
+          </p>
         </div>
-
-        <p className="text-center text-on-dark-muted text-sm max-w-2xl mx-auto">
-          NOVA aims to build a longitudinal human-risk intelligence layer that connects continuous signals, behavioral changes, incidents, interventions, and outcomes over time — designed to enable an evolving understanding of risk, not just a single point-in-time reading. This is our long-term data strategy, built toward incrementally as the platform matures.
+        <p className="text-center text-xs text-stone mt-5 max-w-xl mx-auto">
+          Available states, event types, and thresholds depend on connected data sources, institutional configuration, and validated models.
         </p>
       </div>
     </section>
@@ -1201,12 +1142,12 @@ function MultimodalSection() {
     { label: 'Third-Party APIs', type: 'api' },
   ];
   return (
-    <section className="py-28 bg-surface-green">
+    <section className="py-20 bg-surface-green">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Device-Agnostic"
           title="Intelligence beyond a single device."
-          sub="NOVA is software-first. NOVA Intelligence is designed as a device-agnostic intelligence layer, allowing organizations to build on existing hardware and data infrastructure rather than replacing it."
+          sub="Software-first and device-agnostic: organizations build on the hardware and data they already have, instead of replacing it."
           width="max-w-2xl"
         />
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
@@ -1294,11 +1235,11 @@ function UseCasesSection() {
       desc: 'Longer-term applications for organizations managing distributed or higher-risk populations.' },
   ];
   return (
-    <section id="use-cases" className="py-28 bg-white">
+    <section id="use-cases" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Use Cases"
-          title="Built for everyone responsible for care."
+          title="Built for everyone who carries the responsibility."
           sub="Elderly care is our beachhead market. Insurance and broader risk programs represent future scaling opportunities."
           width="max-w-2xl"
         />
@@ -1315,50 +1256,6 @@ function UseCasesSection() {
             NOVA follows a partner-led <strong className="text-ink">B2B2C</strong> model: institutions — care providers, insurers, and risk organizations — deploy NOVA Intelligence to the populations they already serve. Partners gain preventive risk programs; individuals gain protection without having to assemble it themselves.
           </p>
         </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── MARKET OPPORTUNITY ────────────────────────────────────────────────────────
-
-function MarketSection() {
-  const { ref, visible } = useReveal();
-  const tiers = [
-    { key: 'TAM', value: '$1.9B', users: '32M people',    desc: 'Older adults in Indonesia (2023) — our initial geographic market.', w: '100%' },
-    { key: 'SAM', value: '$192M', users: '3.2M people',   desc: 'Reachable through institutional and partner-led channels (~10% of TAM).', w: '62%' },
-    { key: 'SOM', value: '$3M',   users: '50,000 people', desc: 'Early-stage obtainable target across initial pilot deployments.', w: '28%' },
-  ];
-  return (
-    <section className="py-28 bg-white">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHead
-          eyebrow="Market"
-          title="Starting where the need is most concentrated."
-          sub="NOVA begins with Indonesia's aging population and expands through institutional partners into adjacent risk-sensitive markets."
-          width="max-w-2xl"
-        />
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} space-y-4 max-w-3xl mx-auto`}>
-          {tiers.map((t, i) => (
-            <div key={t.key} className="rounded-2xl border border-hairline bg-surface-soft p-6">
-              <div className="flex items-baseline justify-between gap-4 mb-3">
-                <div className="flex items-baseline gap-3">
-                  <span className="text-[11px] font-bold tracking-widest uppercase text-stone">{t.key}</span>
-                  <span className="text-2xl font-medium text-ink tracking-[-0.5px]">{t.value}</span>
-                </div>
-                <span className="text-xs text-steel">{t.users}</span>
-              </div>
-              <div className="h-1.5 rounded-full bg-hairline overflow-hidden mb-3">
-                <div className="h-full rounded-full bg-brand-green transition-all duration-1000"
-                  style={{ width: visible ? t.w : '0%', transitionDelay: `${i * 150}ms` }} />
-              </div>
-              <p className="text-xs text-steel leading-relaxed">{t.desc}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-[11px] text-stone mt-6">
-          Internal estimates based on population data for Indonesia. Figures are planning targets, not realized revenue.
-        </p>
       </div>
     </section>
   );
@@ -1395,12 +1292,33 @@ function TechnologySection() {
       desc: 'Designed for interoperability with institutional systems and third-party platforms.' },
   ];
   return (
-    <section id="technology" className="py-28 bg-brand-teal-deep relative overflow-hidden">
+    <section id="technology" className="py-20 bg-brand-teal-deep relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden>
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, #00ed64 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
       </div>
       <div className="relative max-w-[1280px] mx-auto px-6">
-        <SectionHead on="dark" eyebrow="Technology" title="Built as an intelligence layer." width="max-w-2xl" />
+        <SectionHead
+          on="dark"
+          eyebrow="Technology"
+          title="Built as an intelligence layer."
+          sub="Four ideas hold the platform together — and six capabilities make them real."
+          width="max-w-2xl"
+        />
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {[
+            ['Personalized', 'Individual baselines and history'],
+            ['Longitudinal', 'Patterns across time, not isolated events'],
+            ['Multimodal', 'Many devices and systems, one picture'],
+            ['Actionable', 'States, trends, and workflows people can act on'],
+          ].map(([t, d]) => (
+            <div key={t} className="rounded-xl border border-brand-green/25 bg-brand-green/8 p-5">
+              <div className="text-sm font-semibold text-brand-green mb-1.5">{t}</div>
+              <p className="text-xs text-on-dark-muted leading-relaxed">{d}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {pillars.map((p, i) => (
             <PillarCard key={p.mark} mark={p.mark} title={p.title} desc={p.desc} color={p.color} on="dark" delay={i * 100} />
@@ -1415,18 +1333,15 @@ function TechnologySection() {
 
 function PrivacySection() {
   const principles = [
-    { mark: '1', title: 'Privacy-Aware Architecture', desc: 'Data handling designed around minimization and purpose limitation from the start.' },
-    { mark: '2', title: 'Role-Based Institutional Access', desc: 'Organizational users see only what their role and configuration permit.' },
-    { mark: '3', title: 'Secure Data Handling', desc: 'Encryption and access controls applied across the data lifecycle.' },
-    { mark: '4', title: 'Explainable Risk Indicators', desc: 'Where possible, risk outputs are designed to be interpretable, not a black box.' },
-    { mark: '5', title: 'Human-in-the-Loop Decisions', desc: 'NOVA Intelligence supports decisions — it does not replace institutional judgment.' },
-    { mark: '6', title: 'Responsible AI Development', desc: 'Models are developed and evaluated with an ongoing focus on fairness and reliability.' },
-    { mark: '7', title: 'Consent-Aware Data Sharing', desc: 'Family and organizational access is permission-based, granted by the individual and their organization.' },
-    { mark: '8', title: 'Institutional Governance', desc: 'Organizational deployments operate under defined roles, agreements, and audit expectations.' },
-    { mark: '9', title: 'Aggregated Analytics', desc: 'Population and program analytics are designed to work on aggregated and appropriately governed insights.' },
+    { mark: '1', title: 'Privacy-Aware Architecture', desc: 'Built around data minimization and purpose limitation, not retrofitted onto them.' },
+    { mark: '2', title: 'Permission-Based Access', desc: 'Family and organizational access is granted by the individual and their organization, with role-based scope.' },
+    { mark: '3', title: 'Explainable Indicators', desc: 'Where possible a risk output can be traced to what moved it, rather than arriving as a black box.' },
+    { mark: '4', title: 'Human-in-the-Loop', desc: 'NOVA supports decisions. It does not replace clinical or institutional judgement.' },
+    { mark: '5', title: 'Aggregated by Default', desc: 'Population and program analytics are designed to work on aggregated, appropriately governed insights.' },
   ];
+
   return (
-    <section id="privacy" className="py-28 bg-white">
+    <section id="privacy" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Responsible AI & Privacy"
@@ -1465,12 +1380,12 @@ function ResearchSection() {
     { title: 'Intellectual Property', status: '1 patent held by the team' },
   ];
   return (
-    <section id="research" className="py-28 bg-surface-green">
+    <section id="research" className="py-20 bg-surface-green">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Research"
           title="Research-driven by design."
-          sub="NOVA's intelligence models are intended to be supported by rigorous research rather than marketing claims. Our founding team has authored IEEE and Scopus-indexed publications and holds a patent in related fields."
+          sub="Our models should be answerable to research, not marketing. The founding team has authored IEEE and Scopus-indexed publications and holds a patent in related fields."
           width="max-w-2xl"
         />
         <div className="flex flex-wrap justify-center gap-2 mb-12">
@@ -1507,92 +1422,6 @@ function ResearchSection() {
   );
 }
 
-// ─── WHY NOVA ──────────────────────────────────────────────────────────────────
-
-function WhyNovaSection() {
-  const pillars = [
-    { mark: 'P', title: 'Personalized', desc: 'Risk intelligence based on individual baselines and history.' },
-    { mark: 'L', title: 'Longitudinal', desc: 'Understand patterns across time instead of isolated events.' },
-    { mark: 'M', title: 'Multimodal',   desc: 'Connect information from multiple devices and systems.' },
-    { mark: 'A', title: 'Actionable',   desc: 'Translate complex signals into risk states, trends, and organizational workflows.' },
-  ];
-  return (
-    <section className="py-28 bg-white">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHead eyebrow="Why NOVA" title="Four ideas, one platform." width="max-w-xl" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {pillars.map((p, i) => (
-            <PillarCard key={p.mark} mark={p.mark} title={p.title} desc={p.desc}
-              color="text-brand-green-dark bg-brand-green/10 border-brand-green/25" delay={i * 90} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── CURRENT STAGE ──────────────────────────────────────────────────────────────
-
-// ─── HOLDING / PARENT ORGANIZATION ─────────────────────────────────────────────
-
-function HoldingSection() {
-  const { ref, visible } = useReveal();
-  return (
-    <section id="sehatin" className="py-28 bg-surface-green">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <SectionHead
-          eyebrow="Our Parent Organization"
-          title="NOVA is a venture of SEHATIN."
-          sub="SEHATIN builds healthcare technology ventures from research. NOVA is its first flagship venture."
-          width="max-w-2xl"
-        />
-
-        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} max-w-4xl mx-auto`}>
-          {/* Hierarchy: SEHATIN above NOVA */}
-          <div className="flex flex-col items-center mb-12">
-            <div className="w-full max-w-md bg-white rounded-2xl border border-hairline p-7 text-center">
-              <div className="h-16 flex items-center justify-center mb-4">
-                <Image src="/images/partners/sehatin.jpg" alt="SEHATIN" width={600} height={600} className="h-16 w-auto object-contain" />
-              </div>
-              <div className="text-base font-semibold text-ink">SEHATIN</div>
-              <div className="text-xs text-steel mt-1">Innovation ecosystem · Parent organization</div>
-            </div>
-
-            <div className="flex flex-col items-center py-2 text-stone">
-              <span className="w-px h-6 bg-hairline" />
-              <span className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark py-1.5">first flagship venture</span>
-              <span className="w-px h-6 bg-hairline" />
-            </div>
-
-            <div className="w-full max-w-md bg-white rounded-2xl border border-brand-green/30 p-7 text-center">
-              <div className="h-16 flex items-center justify-center mb-4">
-                <Image src="/images/nova_logo.png" alt="NOVA" width={300} height={132} className="h-12 w-auto object-contain" />
-              </div>
-              <div className="text-base font-semibold text-ink">NOVA</div>
-              <div className="text-xs text-steel mt-1">AI-powered fall prevention &amp; human risk intelligence</div>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-2xl border border-hairline p-7">
-              <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">Research to real-world impact</div>
-              <p className="text-sm text-steel leading-relaxed">
-                Beyond knowledge sharing, SEHATIN is evolving into an innovation ecosystem that transforms research into real-world impact. By connecting science, engineering, and entrepreneurship, SEHATIN develops and supports healthcare technologies from early-stage research through product innovation and venture creation.
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl border border-hairline p-7">
-              <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">Where NOVA fits</div>
-              <p className="text-sm text-steel leading-relaxed">
-                Its first flagship venture, NOVA, focuses on AI-powered Fall Prevention and Human Risk Intelligence, demonstrating SEHATIN&apos;s mission to bridge cutting-edge research with practical healthcare solutions that improve people&apos;s lives.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function TeamSection() {
   const team = [
     {
@@ -1621,7 +1450,7 @@ function TeamSection() {
     },
   ];
   return (
-    <section id="company" className="py-28 bg-white">
+    <section id="company" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="Company"
@@ -1685,7 +1514,7 @@ function StageSection() {
     { label: 'Team',                  detail: 'Actively hiring across AI and engineering' },
   ];
   return (
-    <section id="stage" className="py-28 bg-brand-teal-deep relative overflow-hidden">
+    <section id="stage" className="py-20 bg-brand-teal-deep relative overflow-hidden">
       <div className="relative max-w-[1280px] mx-auto px-6">
         <SectionHead on="dark" eyebrow="Current Stage" title="Building the next layer of human-risk intelligence." width="max-w-2xl" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -1721,34 +1550,36 @@ function StageSection() {
 
 function PartnersSection() {
   const { ref, visible } = useReveal();
-  const partners = [
-    { name: 'Equira Life', logo: '/images/partners/equiralife.png', detail: 'Actuarial pricing collaboration', w: 234, h: 80,  cls: 'h-10 w-auto' },
-    { name: 'MediVue',     logo: '/images/partners/medivue.png',    detail: 'Partner',                        w: 484, h: 375, cls: 'h-16 w-auto' },
+  const orgs = [
+    { name: 'SEHATIN', logo: '/images/partners/sehatin.jpg', cls: 'h-14 w-auto', w: 600, h: 600,
+      tag: 'Parent organization', tagCls: 'bg-brand-green text-on-primary',
+      detail: 'Innovation ecosystem turning research into ventures. NOVA is its first flagship venture.' },
+    { name: 'Equira Life', logo: '/images/partners/equiralife.png', cls: 'h-10 w-auto', w: 234, h: 80,
+      tag: 'Partner', tagCls: 'bg-white border border-hairline text-steel',
+      detail: 'Actuarial pricing collaboration.' },
+    { name: 'MediVue', logo: '/images/partners/medivue.png', cls: 'h-16 w-auto', w: 484, h: 375,
+      tag: 'Partner', tagCls: 'bg-white border border-hairline text-steel',
+      detail: 'Healthcare technology partner.' },
   ];
   return (
-    <section id="partners" className="py-28 bg-surface-green">
+    <section id="partners" className="py-20 bg-surface-green">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
-          eyebrow="Partners"
+          eyebrow="Backing & Partners"
           title="Working with partners from the start."
-          sub="NOVA's partner-led model means the platform is shaped alongside the organizations that will operate it."
+          sub="NOVA is built inside an innovation ecosystem and shaped alongside the organizations that will operate it."
           width="max-w-2xl"
         />
         <div ref={ref as React.RefObject<HTMLDivElement>}
-          className={`reveal ${visible ? 'visible' : ''} grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto`}>
-          {partners.map(p => (
-            <div key={p.name} className="bg-white rounded-2xl border border-hairline p-8 flex flex-col items-center text-center">
+          className={`reveal ${visible ? 'visible' : ''} grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto`}>
+          {orgs.map(o => (
+            <div key={o.name} className="bg-white rounded-2xl border border-hairline p-7 flex flex-col items-center text-center">
               <div className="h-16 flex items-center justify-center mb-5">
-                <Image
-                  src={p.logo}
-                  alt={p.name}
-                  width={p.w}
-                  height={p.h}
-                  className={`${p.cls} object-contain`}
-                />
+                <Image src={o.logo} alt={o.name} width={o.w} height={o.h} className={`${o.cls} object-contain`} />
               </div>
-              <div className="text-base font-semibold text-ink mb-1">{p.name}</div>
-              <div className="text-xs text-steel">{p.detail}</div>
+              <span className={`text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full mb-3 ${o.tagCls}`}>{o.tag}</span>
+              <div className="text-base font-semibold text-ink mb-1.5">{o.name}</div>
+              <p className="text-xs text-steel leading-relaxed">{o.detail}</p>
             </div>
           ))}
         </div>
@@ -1808,7 +1639,7 @@ function PartnerSection() {
   const label = 'block text-xs font-semibold text-slate mb-1.5 uppercase tracking-wide';
 
   return (
-    <section id="partner" className="py-28 bg-white">
+    <section id="partner" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal max-w-2xl mx-auto text-center ${visible ? 'visible' : ''}`}>
           <Eyebrow>Partnership</Eyebrow>
@@ -1923,7 +1754,7 @@ function Footer() {
     { head: 'Product', links: [
       { label: 'NOVA Intelligence', href: '#platform' },
       { label: 'Technology', href: '#technology' },
-      { label: 'Risk States', href: '#risk-states' },
+      { label: 'Risk Model', href: '#risk-model' },
     ] },
     { head: 'Company', links: [
       { label: 'About', href: '#company' },
@@ -1959,7 +1790,7 @@ function Footer() {
               Human Risk Intelligence for a safer world.
             </p>
             <p className="text-xs text-on-dark-muted mb-4">
-              A venture of <a href="#sehatin" className="text-brand-green hover:underline underline-offset-2">SEHATIN</a>.
+              A venture of <a href="#partners" className="text-brand-green hover:underline underline-offset-2">SEHATIN</a>.
             </p>
             <div className="flex flex-col gap-1.5 mb-6">
               <a href="mailto:novanextgencorp@outlook.com" className="text-sm text-on-dark-muted hover:text-brand-green transition-colors">
@@ -2008,22 +1839,15 @@ export default function Home() {
       <PlatformSection />
       <EcosystemSection />
       <StakeholdersSection />
-      <HowItWorksSection />
+      <RiskModelSection />
       <ProductOverviewSection />
-      <PersonalizedSection />
-      <RiskStatesSection />
-      <LongitudinalSection />
       <MultimodalSection />
-      <ScaleSection />
-      <FlywheelSection />
+      <CompoundingSection />
       <UseCasesSection />
       <BusinessModelSection />
-      <MarketSection />
       <TechnologySection />
       <PrivacySection />
       <ResearchSection />
-      <WhyNovaSection />
-      <HoldingSection />
       <TeamSection />
       <StageSection />
       <PartnersSection />
