@@ -1533,6 +1533,66 @@ function WhyNovaSection() {
 
 // ─── CURRENT STAGE ──────────────────────────────────────────────────────────────
 
+// ─── HOLDING / PARENT ORGANIZATION ─────────────────────────────────────────────
+
+function HoldingSection() {
+  const { ref, visible } = useReveal();
+  return (
+    <section id="sehatin" className="py-28 bg-surface-green">
+      <div className="max-w-[1280px] mx-auto px-6">
+        <SectionHead
+          eyebrow="Our Parent Organization"
+          title="NOVA is a venture of SEHATIN."
+          sub="SEHATIN builds healthcare technology ventures from research. NOVA is its first flagship venture."
+          width="max-w-2xl"
+        />
+
+        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} max-w-4xl mx-auto`}>
+          {/* Hierarchy: SEHATIN above NOVA */}
+          <div className="flex flex-col items-center mb-12">
+            <div className="w-full max-w-md bg-white rounded-2xl border border-hairline p-7 text-center">
+              <div className="h-16 flex items-center justify-center mb-4">
+                <Image src="/images/partners/sehatin.jpg" alt="SEHATIN" width={600} height={600} className="h-16 w-auto object-contain" />
+              </div>
+              <div className="text-base font-semibold text-ink">SEHATIN</div>
+              <div className="text-xs text-steel mt-1">Innovation ecosystem · Parent organization</div>
+            </div>
+
+            <div className="flex flex-col items-center py-2 text-stone">
+              <span className="w-px h-6 bg-hairline" />
+              <span className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark py-1.5">first flagship venture</span>
+              <span className="w-px h-6 bg-hairline" />
+            </div>
+
+            <div className="w-full max-w-md bg-white rounded-2xl border border-brand-green/30 p-7 text-center">
+              <div className="h-16 flex items-center justify-center mb-4">
+                <Image src="/images/nova_logo.png" alt="NOVA" width={300} height={132} className="h-12 w-auto object-contain" />
+              </div>
+              <div className="text-base font-semibold text-ink">NOVA</div>
+              <div className="text-xs text-steel mt-1">AI-powered fall prevention &amp; human risk intelligence</div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl border border-hairline p-7">
+              <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">Research to real-world impact</div>
+              <p className="text-sm text-steel leading-relaxed">
+                Beyond knowledge sharing, SEHATIN is evolving into an innovation ecosystem that transforms research into real-world impact. By connecting science, engineering, and entrepreneurship, SEHATIN develops and supports healthcare technologies from early-stage research through product innovation and venture creation.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl border border-hairline p-7">
+              <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">Where NOVA fits</div>
+              <p className="text-sm text-steel leading-relaxed">
+                Its first flagship venture, NOVA, focuses on AI-powered Fall Prevention and Human Risk Intelligence, demonstrating SEHATIN&apos;s mission to bridge cutting-edge research with practical healthcare solutions that improve people&apos;s lives.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function TeamSection() {
   const team = [
     {
@@ -1575,12 +1635,6 @@ function TeamSection() {
           ))}
         </div>
 
-        <div className="max-w-3xl mx-auto rounded-2xl border border-hairline bg-surface-soft p-8 text-center">
-          <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">Brand origin</div>
-          <p className="text-sm text-steel leading-relaxed">
-            NOVA began as <strong className="text-ink">Next Gen On Body Vital Assistant</strong> — an effort to detect falls among older adults. The thesis has since widened from detecting single events to understanding how individual risk changes over time: <strong className="text-ink">from fall detection to risk intelligence.</strong>
-          </p>
-        </div>
       </div>
     </section>
   );
@@ -1669,7 +1723,7 @@ function PartnersSection() {
   const { ref, visible } = useReveal();
   const partners = [
     { name: 'Equira Life', logo: '/images/partners/equiralife.png', detail: 'Actuarial pricing collaboration', w: 234, h: 80,  cls: 'h-10 w-auto' },
-    { name: 'Sehatin',     logo: '/images/partners/sehatin.jpg',    detail: 'Partner',                       w: 600, h: 600, cls: 'h-14 w-auto' },
+    { name: 'MediVue',     logo: '/images/partners/medivue.png',    detail: 'Partner',                        w: 484, h: 375, cls: 'h-16 w-auto' },
   ];
   return (
     <section id="partners" className="py-28 bg-surface-green">
@@ -1707,15 +1761,51 @@ function PartnersSection() {
 
 function PartnerSection() {
   const { ref, visible } = useReveal();
-  const [email, setEmail] = useState('');
-  const [org, setOrg] = useState('');
-  const [role, setRole] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', org: '', role: '', message: '', trap: '' });
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'fallback' | 'error'>('idle');
+  const [error, setError] = useState('');
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (email) setSubmitted(true);
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  // Used when no mail provider is configured, so an enquiry is never lost.
+  const mailtoHref = () => {
+    const body = [
+      `Name: ${form.name || '—'}`,
+      `Organization: ${form.org || '—'}`,
+      `Represents: ${form.role || '—'}`,
+      '',
+      form.message || '',
+    ].join('\n');
+    return `mailto:novanextgencorp@outlook.com?subject=${encodeURIComponent(
+      `Partnership enquiry — ${form.org || form.name || 'NOVA'}`
+    )}&body=${encodeURIComponent(body)}`;
   };
+
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setState('sending');
+    setError('');
+    try {
+      const res = await fetch('/api/partner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) { setState('sent'); return; }
+      if (res.status === 503) { setState('fallback'); return; }
+      setError(data.error || 'Something went wrong on our side. Please email us directly.');
+      setState('error');
+    } catch {
+      setError('We could not reach the server. Please check your connection or email us directly.');
+      setState('error');
+    }
+  };
+
+  const field = 'w-full h-11 px-4 text-sm text-ink bg-white border border-hairline rounded-lg outline-none focus:border-brand-green-dark focus:ring-2 focus:ring-brand-green/20 transition-all';
+  const label = 'block text-xs font-semibold text-slate mb-1.5 uppercase tracking-wide';
 
   return (
     <section id="partner" className="py-28 bg-white">
@@ -1730,53 +1820,84 @@ function PartnerSection() {
             We&apos;re looking to collaborate with care organizations, healthcare providers, researchers, technology partners, and institutions interested in exploring more intelligent approaches to human-risk monitoring and prevention.
           </p>
 
-          {submitted ? (
+          {state === 'sent' ? (
             <div className="bg-brand-green-soft border border-brand-green/30 rounded-2xl p-8">
               <div className="w-12 h-12 rounded-full bg-brand-green/20 flex items-center justify-center mx-auto mb-4">
                 <Chk cls="w-6 h-6 text-brand-green" />
               </div>
               <h3 className="text-xl font-semibold text-ink mb-2">Thanks for reaching out.</h3>
-              <p className="text-steel text-sm">We&apos;ll follow up as we move toward pilot partnerships. Thank you for your interest in NOVA.</p>
+              <p className="text-steel text-sm">
+                Your enquiry is with our team and we&apos;ll follow up at <strong className="text-ink">{form.email}</strong>.
+              </p>
+            </div>
+          ) : state === 'fallback' ? (
+            <div className="bg-surface-green border border-brand-green/25 rounded-2xl p-8 text-left">
+              <h3 className="text-lg font-semibold text-ink mb-2">One more step</h3>
+              <p className="text-steel text-sm leading-relaxed mb-5">
+                Our contact form isn&apos;t connected to a mail service yet, so nothing has been sent. Use the button below — it opens an email with everything you typed already filled in.
+              </p>
+              <a href={mailtoHref()}
+                className="inline-flex items-center gap-2 bg-brand-green text-on-primary font-semibold text-sm px-6 py-3 rounded-full hover:brightness-110 transition-all">
+                Open prefilled email
+                <ArrowRight cls="w-3.5 h-3.5" />
+              </a>
             </div>
           ) : (
             <form onSubmit={submit} className="bg-surface-green rounded-2xl border border-brand-green/20 p-8 text-left">
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate mb-1.5 uppercase tracking-wide">Work email *</label>
-                  <input
-                    type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                    placeholder="you@organization.com"
-                    className="w-full h-11 px-4 text-sm text-ink bg-white border border-hairline rounded-lg outline-none focus:border-brand-green-dark focus:ring-2 focus:ring-brand-green/20 transition-all"
-                  />
+                  <label htmlFor="p-name" className={label}>Name</label>
+                  <input id="p-name" type="text" value={form.name} onChange={set('name')} placeholder="Your name" className={field} />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate mb-1.5 uppercase tracking-wide">Organization</label>
-                  <input
-                    type="text" value={org} onChange={e => setOrg(e.target.value)}
-                    placeholder="Organization name"
-                    className="w-full h-11 px-4 text-sm text-ink bg-white border border-hairline rounded-lg outline-none focus:border-brand-green-dark focus:ring-2 focus:ring-brand-green/20 transition-all"
-                  />
+                  <label htmlFor="p-email" className={label}>Work email *</label>
+                  <input id="p-email" type="email" required value={form.email} onChange={set('email')} placeholder="you@organization.com" className={field} />
                 </div>
               </div>
-              <div className="mb-4">
-                <label className="block text-xs font-semibold text-slate mb-1.5 uppercase tracking-wide">I represent…</label>
-                <select
-                  value={role} onChange={e => setRole(e.target.value)}
-                  className="w-full h-11 px-4 text-sm text-ink bg-white border border-hairline rounded-lg outline-none focus:border-brand-green-dark focus:ring-2 focus:ring-brand-green/20 transition-all appearance-none"
-                >
-                  <option value="">Select an option</option>
-                  <option value="care">Care organization</option>
-                  <option value="healthcare">Healthcare provider</option>
-                  <option value="insurance">Insurance / risk organization</option>
-                  <option value="research">Research institution</option>
-                  <option value="investor">Investor</option>
-                  <option value="other">Other</option>
-                </select>
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="p-org" className={label}>Organization</label>
+                  <input id="p-org" type="text" value={form.org} onChange={set('org')} placeholder="Organization name" className={field} />
+                </div>
+                <div>
+                  <label htmlFor="p-role" className={label}>I represent…</label>
+                  <select id="p-role" value={form.role} onChange={set('role')} className={`${field} appearance-none`}>
+                    <option value="">Select an option</option>
+                    <option value="Care organization">Care organization</option>
+                    <option value="Healthcare provider">Healthcare provider</option>
+                    <option value="Insurance / risk organization">Insurance / risk organization</option>
+                    <option value="Research institution">Research institution</option>
+                    <option value="Investor">Investor</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
               </div>
-              <button type="submit"
-                className="w-full bg-brand-green text-on-primary font-semibold text-sm py-3.5 rounded-full hover:brightness-110 active:scale-95 transition-all"
+              <div className="mb-5">
+                <label htmlFor="p-message" className={label}>What would you like to explore?</label>
+                <textarea id="p-message" value={form.message} onChange={set('message')} rows={4}
+                  placeholder="A sentence or two about your organization and what you have in mind."
+                  className="w-full px-4 py-3 text-sm text-ink bg-white border border-hairline rounded-lg outline-none focus:border-brand-green-dark focus:ring-2 focus:ring-brand-green/20 transition-all resize-y" />
+              </div>
+
+              {/* Honeypot — hidden from people, tempting to bots */}
+              <div aria-hidden className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                <label htmlFor="p-trap">Leave this field empty</label>
+                <input id="p-trap" type="text" tabIndex={-1} autoComplete="off" value={form.trap} onChange={set('trap')} />
+              </div>
+
+              {state === 'error' && (
+                <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+                  {error}{' '}
+                  <a href="mailto:novanextgencorp@outlook.com" className="font-semibold underline underline-offset-2">
+                    novanextgencorp@outlook.com
+                  </a>
+                </div>
+              )}
+
+              <button type="submit" disabled={state === 'sending'}
+                className="w-full bg-brand-green text-on-primary font-semibold text-sm py-3.5 rounded-full hover:brightness-110 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100"
               >
-                Partner With NOVA
+                {state === 'sending' ? 'Sending…' : 'Partner With NOVA'}
               </button>
               <p className="text-center text-xs text-stone mt-4">No spam. We&apos;ll only reach out about partnership opportunities.</p>
             </form>
@@ -1834,8 +1955,11 @@ function Footer() {
               height={52}
               className="object-contain h-auto mb-4"
             />
-            <p className="text-sm text-on-dark-muted leading-relaxed mb-4">
+            <p className="text-sm text-on-dark-muted leading-relaxed mb-2">
               Human Risk Intelligence for a safer world.
+            </p>
+            <p className="text-xs text-on-dark-muted mb-4">
+              A venture of <a href="#sehatin" className="text-brand-green hover:underline underline-offset-2">SEHATIN</a>.
             </p>
             <div className="flex flex-col gap-1.5 mb-6">
               <a href="mailto:novanextgencorp@outlook.com" className="text-sm text-on-dark-muted hover:text-brand-green transition-colors">
@@ -1899,6 +2023,7 @@ export default function Home() {
       <PrivacySection />
       <ResearchSection />
       <WhyNovaSection />
+      <HoldingSection />
       <TeamSection />
       <StageSection />
       <PartnersSection />
