@@ -1428,7 +1428,7 @@ function TeamSection() {
       name: 'Prima Wijayakusuma', role: 'Founder · Hardware and Innovation',
       photo: '/images/team/prima.png',
       affiliation: 'School of Integrated Circuits and Electronics, Beijing Institute of Technology',
-      bullets: ['M.Sc. student in Electromagnetics for Biomedical Applications', 'Best Young Innovator, Korea Invention Promotion Association (KIPA) 2024', '3 years with United Nations SDG Networks Indonesia', 'Holder of 1 patent; author of 4 IEEE & Scopus-indexed publications'],
+      bullets: ['M.Sc. student in Electromagnetics for Biomedical Applications', 'Best Young Innovator, Korea Invention Promotion Association (KIPA) 2024', 'Assistant Network Manager, UN SDSN Indonesia', 'Holder of 1 patent; author of 4 IEEE & Scopus-indexed publications'],
     },
     {
       name: 'Angeline M Marchella', role: 'Co-Founder · AI Algorithm Design',
