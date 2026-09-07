@@ -297,23 +297,19 @@ function Hero() {
                style={{ transitionDelay: '0ms' }}>
             <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
             <span className="text-brand-green text-[10px] font-bold tracking-[1.2px] uppercase">
-              Pre-seed · Open for investment
+              NOVA Intelligence · Human Risk Intelligence
             </span>
           </div>
 
           <h1 className={`text-[clamp(2.6rem,5vw,4rem)] font-medium text-white leading-[1.1] tracking-[-1.5px] mb-5 ${delay()}`}
               style={{ transitionDelay: '100ms' }}>
-            Every year, 684,000 people<br />
-            <span className="gradient-text-green">die from a fall.</span>
+            Know the fall<br />
+            <span className="gradient-text-green">before it happens.</span>
           </h1>
 
           <p className={`text-[1.05rem] text-on-dark-muted leading-relaxed max-w-[500px] mb-10 ${delay()}`}
              style={{ transitionDelay: '200ms' }}>
-            Older adults are the most affected. Care arrives after the fall, because nobody saw the risk rising. NOVA is building the intelligence layer that lets families, caregivers, and care organizations act before the incident — not after it.
-          </p>
-
-          <p className={`text-[11px] text-on-dark-muted/70 mb-8 ${delay()}`} style={{ transitionDelay: '250ms' }}>
-            Source: World Health Organization — Falls Fact Sheet
+            NOVA Intelligence turns everyday signals from the wearables and phones people already own into early warning. AI learns what normal looks like for each individual, catches the change that matters, and alerts caregivers and family while there is still time to act.
           </p>
 
           <div className={`flex flex-col sm:flex-row gap-3 mb-12 ${delay()}`} style={{ transitionDelay: '300ms' }}>
@@ -429,6 +425,13 @@ function ProblemSection() {
         </div>
 
         <div className="max-w-3xl mx-auto rounded-2xl border border-hairline bg-surface-soft p-8">
+          <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2 pb-7 mb-7 border-b border-hairline">
+            <span className="text-4xl font-medium text-ink tracking-[-1.5px]">684,000<span className="text-brand-green">+</span></span>
+            <span className="text-sm text-steel leading-snug max-w-sm">
+              people die from a fall every year, and older adults are the most affected group.
+            </span>
+            <span className="w-full text-[11px] text-stone">Source: World Health Organization — Falls Fact Sheet</span>
+          </div>
           <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-4">What that costs</div>
           <div className="grid sm:grid-cols-3 gap-6">
             {[
