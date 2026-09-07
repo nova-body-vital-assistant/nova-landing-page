@@ -121,6 +121,17 @@ function SectionHead({
 }
 
 // Letter-in-box pillar card — reused across Problem / Technology / Why NOVA / Privacy
+function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const { ref, visible } = useReveal();
+  return (
+    <div ref={ref as React.RefObject<HTMLDivElement>}
+      className={`reveal ${visible ? 'visible' : ''} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
+
 function PillarCard({
   mark, title, desc, color, on = 'light', delay = 0,
 }: {
@@ -157,10 +168,10 @@ function Navbar() {
   }, []);
 
   const links = [
-    { label: 'Product',    href: '#product' },
-    { label: 'Ecosystem',  href: '#ecosystem' },
+    { label: 'Products',   href: '#products' },
+    { label: 'Market',     href: '#market' },
+    { label: 'Investors',  href: '#invest' },
     { label: 'Technology', href: '#technology' },
-    { label: 'Use Cases',  href: '#use-cases' },
     { label: 'Research',   href: '#research' },
     { label: 'Company',    href: '#company' },
   ];
@@ -171,9 +182,9 @@ function Navbar() {
       <div className="fixed top-0 inset-x-0 z-50 bg-brand-teal-deep text-center py-2 px-4">
         <p className="text-xs text-on-dark-muted">
           <span className="text-brand-green font-semibold">NOVA</span>
-          {' '}— Human Risk Intelligence Platform · Building in development ·{' '}
-          <a href="#partner" className="text-brand-green underline underline-offset-2 font-medium">
-            Partner With NOVA →
+          {' '}— Human Risk Intelligence Platform · Pre-seed, open for investment ·{' '}
+          <a href="#invest" className="text-brand-green underline underline-offset-2 font-medium">
+            For investors →
           </a>
         </p>
       </div>
@@ -213,10 +224,10 @@ function Navbar() {
             >
               Explore the Platform
             </a>
-            <a href="#partner"
+            <a href="#invest"
               className="hidden md:inline-block bg-brand-green text-on-primary font-semibold text-sm px-5 py-2.5 rounded-full hover:brightness-110 active:scale-95 transition-all"
             >
-              Partner With NOVA
+              For investors
             </a>
             <button onClick={() => setOpen(!open)} className="md:hidden p-1.5" aria-label="Menu">
               <svg className={`w-5 h-5 ${scrolled ? 'text-ink' : 'text-white'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -286,37 +297,41 @@ function Hero() {
                style={{ transitionDelay: '0ms' }}>
             <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
             <span className="text-brand-green text-[10px] font-bold tracking-[1.2px] uppercase">
-              NOVA Intelligence
+              Pre-seed · Open for investment
             </span>
           </div>
 
           <h1 className={`text-[clamp(2.6rem,5vw,4rem)] font-medium text-white leading-[1.1] tracking-[-1.5px] mb-5 ${delay()}`}
               style={{ transitionDelay: '100ms' }}>
-            Human risk intelligence<br />
-            <span className="gradient-text-green">for a safer world.</span>
+            Every year, 684,000 people<br />
+            <span className="gradient-text-green">die from a fall.</span>
           </h1>
 
           <p className={`text-[1.05rem] text-on-dark-muted leading-relaxed max-w-[500px] mb-10 ${delay()}`}
              style={{ transitionDelay: '200ms' }}>
-            NOVA Intelligence connects continuous human data with caregivers, families, care organizations, and risk partners — turning changing risk into coordinated action.
+            Older adults are the most affected. Care arrives after the fall, because nobody saw the risk rising. NOVA is building the intelligence layer that lets families, caregivers, and care organizations act before the incident — not after it.
+          </p>
+
+          <p className={`text-[11px] text-on-dark-muted/70 mb-8 ${delay()}`} style={{ transitionDelay: '250ms' }}>
+            Source: World Health Organization — Falls Fact Sheet
           </p>
 
           <div className={`flex flex-col sm:flex-row gap-3 mb-12 ${delay()}`} style={{ transitionDelay: '300ms' }}>
-            <a href="#platform"
+            <a href="#products"
               className="group bg-brand-green text-on-primary font-semibold text-sm px-7 py-4 rounded-full hover:brightness-110 transition-all flex items-center justify-center gap-2"
             >
-              Explore NOVA Intelligence
+              See our products
               <ArrowRight cls="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="#partner"
+            <a href="#invest"
               className="border border-white/25 text-white font-medium text-sm px-7 py-4 rounded-full hover:border-white/50 hover:bg-white/5 transition-all text-center"
             >
-              Partner With NOVA
+              For investors
             </a>
           </div>
 
           <div className={`flex flex-wrap gap-x-6 gap-y-2 ${delay()}`} style={{ transitionDelay: '400ms' }}>
-            {['Multimodal signal fusion', 'Device-agnostic by design', 'Longitudinal risk modeling', 'Privacy-aware architecture'].map(b => (
+            {['Peer-reviewed research', 'Award-winning technology', 'Partner-led go-to-market', 'MVP in development'].map(b => (
               <div key={b} className="flex items-center gap-1.5 text-on-dark-muted text-xs">
                 <Chk cls="w-3.5 h-3.5 text-brand-green flex-shrink-0" />
                 {b}
@@ -374,37 +389,59 @@ function Hero() {
 // ─── PROBLEM ──────────────────────────────────────────────────────────────────
 
 function ProblemSection() {
-  const problems = [
-    { mark: '01', title: 'Fragmented Data',      desc: 'Signals live across disconnected devices and systems, captured by different tools that rarely talk to one another.' },
-    { mark: '02', title: 'Reactive Monitoring',  desc: 'Most systems respond after a predefined threshold or an incident — not before one, when intervention still matters most.' },
-    { mark: '03', title: 'Limited Context',      desc: 'A single measurement rarely explains whether someone’s overall risk is actually changing over time.' },
+  const people = [
+    {
+      who: 'The older adult',
+      line: 'Lives independently, and wants to keep it that way.',
+      body: 'A fall does not just injure. It ends the confidence to walk to the kitchen alone. By the time anyone knows, the damage is done.',
+    },
+    {
+      who: 'The family',
+      line: 'Loves them from another city.',
+      body: 'They call to ask how Mum is and get "fine". They have no way to know whether that is true, and no way to tell whether something is slowly changing.',
+    },
+    {
+      who: 'The caregiver',
+      line: 'Responsible for dozens of people at once.',
+      body: 'They find out about an incident when the alarm goes off or the family calls. Nothing tells them which resident needs attention today, before anything happens.',
+    },
   ];
   return (
     <section className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
           eyebrow="The Problem"
-          title="Human data is continuous. Risk management isn't."
-          sub={
-            <>Wearables capture physiology. Phones capture movement. Care systems hold the history. Incidents add more. But the signals stay in separate places — so organizations answer alerts one at a time instead of seeing how risk is moving.</>
-          }
+          title="Care arrives after the fall."
+          sub="Not because anyone is careless — because nothing tells them it was coming. The signals exist, scattered across a watch, a phone, a care record, and last month's incident report. Nobody is reading them together."
           width="max-w-3xl"
         />
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {problems.map((p, i) => (
-            <PillarCard key={p.mark} mark={p.mark} title={p.title} desc={p.desc}
-              color="text-brand-green-dark bg-brand-green/10 border-brand-green/25" delay={i * 100} />
+
+        <div className="grid md:grid-cols-3 gap-6 mb-14">
+          {people.map((p, i) => (
+            <Reveal key={p.who} delay={i * 100}>
+              <div className="h-full rounded-[16px] border border-hairline bg-white p-7">
+                <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">{p.who}</div>
+                <h3 className="text-base font-semibold text-ink mb-3 leading-snug">{p.line}</h3>
+                <p className="text-sm text-steel leading-relaxed">{p.body}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
 
-        <div className="max-w-3xl mx-auto rounded-2xl border border-hairline bg-surface-soft p-8 text-center">
-          <div className="text-4xl md:text-5xl font-medium text-ink tracking-[-1.5px] mb-2">
-            684,000<span className="text-brand-green">+</span>
+        <div className="max-w-3xl mx-auto rounded-2xl border border-hairline bg-surface-soft p-8">
+          <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-4">What that costs</div>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              ['Fragmented', 'Signals sit in separate devices and systems that never speak to each other.'],
+              ['Reactive', 'Most tools respond to a threshold or an incident, never to a trend.'],
+              ['Without context', 'One reading cannot say whether a person’s risk is actually changing.'],
+            ].map(([t, d]) => (
+              <div key={t}>
+                <div className="text-sm font-semibold text-ink mb-1.5">{t}</div>
+                <p className="text-[12.5px] text-steel leading-relaxed">{d}</p>
+              </div>
+            ))}
           </div>
-          <p className="text-sm text-steel leading-relaxed max-w-xl mx-auto">
-            People die from falls globally each year, and older adults are the most affected group — one of several risk categories where earlier understanding of individual change could alter outcomes.
-          </p>
-          <p className="text-[11px] text-stone mt-3">Source: World Health Organization — Falls Fact Sheet</p>
         </div>
       </div>
     </section>
@@ -818,12 +855,12 @@ function ProductOverviewSection() {
     { src: '/images/product/app-activity.png',    name: 'Activity',    desc: 'Event timeline building the longitudinal record over time.' },
   ];
   return (
-    <section id="product" className="py-20 bg-white">
+    <section id="products" className="py-20 bg-white">
       <div className="max-w-[1280px] mx-auto px-6">
         <SectionHead
-          eyebrow="Product Overview"
-          title="What it looks like in the hand."
-          sub="An app for caregivers and families, an analytics layer for the organizations behind them."
+          eyebrow="The Product"
+          title="Our Products"
+          sub="One platform, delivered as software: an app caregivers and families use every day, and an analytics layer for the organizations behind them."
           width="max-w-2xl"
         />
 
@@ -967,30 +1004,6 @@ function BusinessModelSection() {
           Pricing is not yet finalized. Commercial structure is being shaped together with early partners.
         </p>
 
-        {/* Market, folded in: the same layers priced against a real population */}
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-6">
-            <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-2">Where we start</div>
-            <h3 className="text-2xl font-medium text-ink tracking-[-0.3px]">Indonesia&apos;s aging population first.</h3>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              ['TAM', '$1.9B', '32M people',    'Older adults in Indonesia (2023)'],
-              ['SAM', '$192M', '3.2M people',   'Reachable via institutional partners'],
-              ['SOM', '$3M',   '50,000 people', 'Early-stage target across first pilots'],
-            ].map(([k, v, users, desc]) => (
-              <div key={k} className="rounded-2xl border border-hairline bg-surface-soft p-5">
-                <div className="text-[10px] font-bold tracking-widest uppercase text-stone mb-2">{k}</div>
-                <div className="text-2xl font-medium text-ink tracking-[-0.5px]">{v}</div>
-                <div className="text-xs text-steel mt-0.5 mb-2">{users}</div>
-                <p className="text-[11px] text-stone leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-center text-[11px] text-stone mt-5">
-            Internal estimates from population data. Planning targets, not realized revenue.
-          </p>
-        </div>
       </div>
     </section>
   );
@@ -1214,6 +1227,133 @@ function CategoryCard({ cat, delay }: { cat: { label: string; type: IconType }; 
       </div>
       <span className="text-sm font-medium text-charcoal">{cat.label}</span>
     </div>
+  );
+}
+
+// ─── MARKET OPPORTUNITY ────────────────────────────────────────────────────────
+
+function MarketSection() {
+  const { ref, visible } = useReveal();
+  const tiers = [
+    { key: 'TAM', value: '$1.9B', users: '32M people',    desc: 'Older adults in Indonesia (2023) — the population NOVA is built for.', w: '100%' },
+    { key: 'SAM', value: '$192M', users: '3.2M people',   desc: 'Reachable through care organizations, insurers, and partner channels.', w: '62%' },
+    { key: 'SOM', value: '$3M',   users: '50,000 people', desc: 'Early-stage target across the first pilot deployments.', w: '28%' },
+  ];
+  return (
+    <section id="market" className="py-20 bg-white">
+      <div className="max-w-[1280px] mx-auto px-6">
+        <SectionHead
+          eyebrow="Market Opportunity"
+          title={<>A market measured in <span className="gradient-text-green">billions</span>, entered one facility at a time.</>}
+          sub="Indonesia's aging population is the beachhead. The same platform extends to healthcare, insurance, and workplace safety — markets that are larger again."
+          width="max-w-3xl"
+        />
+
+        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} space-y-4 max-w-3xl mx-auto mb-10`}>
+          {tiers.map((t, i) => (
+            <div key={t.key} className="rounded-2xl border border-hairline bg-surface-soft p-6">
+              <div className="flex items-baseline justify-between gap-4 mb-3">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-[11px] font-bold tracking-widest uppercase text-stone">{t.key}</span>
+                  <span className="text-3xl font-medium text-ink tracking-[-0.5px]">{t.value}</span>
+                </div>
+                <span className="text-xs text-steel text-right">{t.users}</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-hairline overflow-hidden mb-3">
+                <div className="h-full rounded-full bg-brand-green transition-all duration-1000"
+                  style={{ width: visible ? t.w : '0%', transitionDelay: `${i * 150}ms` }} />
+              </div>
+              <p className="text-xs text-steel leading-relaxed">{t.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="max-w-3xl mx-auto grid sm:grid-cols-3 gap-4 mb-6">
+          {[
+            ['Why now', 'Wearables and phones are already on the people who need watching. The sensing layer is paid for.'],
+            ['Why partners', 'Care organizations and insurers already hold the relationships, the budgets, and the duty of care.'],
+            ['Why it compounds', 'Every validated event adds context that makes the next judgement better informed.'],
+          ].map(([t, d]) => (
+            <div key={t} className="rounded-xl border border-hairline bg-white p-5">
+              <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-2">{t}</div>
+              <p className="text-[12.5px] leading-relaxed text-steel">{d}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-center text-[11px] text-stone">
+          Internal estimates based on population data for Indonesia. Planning targets, not realized revenue.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ─── INVESTMENT ────────────────────────────────────────────────────────────────
+
+function InvestSection() {
+  const { ref, visible } = useReveal();
+  const proof = [
+    ['Research', 'IEEE paper accepted — the risk model is answerable to peer review, not marketing.'],
+    ['Recognition', 'Most Potential Award, Venture Builders at Startup Alliance China 2026.'],
+    ['Partnerships', 'Equira Life actuarial pricing collaboration; MediVue as a technology partner.'],
+    ['Product', 'MVP in development, with institutional pilot discussions under way.'],
+  ];
+  return (
+    <section id="invest" className="py-20 bg-brand-teal-deep relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05]" aria-hidden>
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, #00ed64 1px, transparent 1px)', backgroundSize: '34px 34px' }} />
+      </div>
+
+      <div className="relative max-w-[1280px] mx-auto px-6">
+        <SectionHead
+          on="dark"
+          eyebrow="Investment"
+          title={<>We are raising a <span className="gradient-text-green">pre-seed round.</span></>}
+          sub="NOVA is early by design: the research is published, the technology direction is externally recognized, and the first partners are already at the table. We are looking for investors who back deep tech before it is obvious."
+          width="max-w-3xl"
+        />
+
+        <div ref={ref as React.RefObject<HTMLDivElement>} className={`reveal ${visible ? 'visible' : ''} grid lg:grid-cols-2 gap-6 mb-8`}>
+          <div className="glass-dark rounded-2xl border border-white/8 p-7 md:p-9">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green mb-5">What is already true</div>
+            <ul className="space-y-4">
+              {proof.map(([t, d]) => (
+                <li key={t}>
+                  <div className="text-sm font-semibold text-on-dark mb-1">{t}</div>
+                  <p className="text-[13px] leading-relaxed text-on-dark-muted">{d}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="glass-dark rounded-2xl border border-brand-green/25 p-7 md:p-9 flex flex-col">
+            <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green mb-5">Open for investment</div>
+            <p className="text-[0.95rem] leading-relaxed text-on-dark mb-6">
+              We are at pre-seed stage and open to conversations with investors, strategic partners, and prospective shareholders who share the ambition of preventing incidents rather than reporting them.
+            </p>
+            <p className="text-[13px] leading-relaxed text-on-dark-muted mb-8">
+              We are equally open to care organizations and insurers who would rather shape the platform as an early pilot partner than buy it finished.
+            </p>
+            <div className="mt-auto flex flex-wrap gap-3">
+              <a href="#partner"
+                className="group bg-brand-green text-on-primary font-semibold text-sm px-6 py-3.5 rounded-full hover:brightness-110 transition-all inline-flex items-center gap-2">
+                Talk to us
+                <ArrowRight cls="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <a href="mailto:novanextgencorp@outlook.com?subject=Investment%20enquiry%20—%20NOVA"
+                className="border border-white/25 text-white font-medium text-sm px-6 py-3.5 rounded-full hover:border-white/50 hover:bg-white/5 transition-all">
+                Email directly
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-center text-[11px] text-on-dark-muted/70 max-w-2xl mx-auto">
+          This page describes the company and its stage. It is not an offer to sell securities, and nothing here is a forecast of returns.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -1836,21 +1976,23 @@ export default function Home() {
       <Navbar />
       <Hero />
       <ProblemSection />
-      <PlatformSection />
-      <EcosystemSection />
-      <StakeholdersSection />
-      <RiskModelSection />
       <ProductOverviewSection />
+      <EcosystemSection />
+      <MarketSection />
+      <InvestSection />
+      <BusinessModelSection />
+      <StageSection />
+      <PartnersSection />
+      <UseCasesSection />
+      <StakeholdersSection />
+      <PlatformSection />
+      <RiskModelSection />
       <MultimodalSection />
       <CompoundingSection />
-      <UseCasesSection />
-      <BusinessModelSection />
       <TechnologySection />
       <PrivacySection />
       <ResearchSection />
       <TeamSection />
-      <StageSection />
-      <PartnersSection />
       <PartnerSection />
       <Footer />
     </main>
