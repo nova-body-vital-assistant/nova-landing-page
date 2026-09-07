@@ -312,6 +312,11 @@ function Hero() {
             NOVA Intelligence turns everyday signals from the wearables and phones people already own into early warning. AI learns what normal looks like for each individual, catches the change that matters, and alerts caregivers and family while there is still time to act.
           </p>
 
+          <p className={`text-[0.95rem] text-on-dark-muted leading-relaxed max-w-[500px] mb-8 ${delay()}`}
+             style={{ transitionDelay: '250ms' }}>
+            And where nothing is worn at all, ambient <strong className="text-white font-medium">WiFi sensing and edge devices in the home</strong> can read movement and gait on their own — so the people who most need watching are not the ones who have to remember to wear something.
+          </p>
+
           <div className={`flex flex-col sm:flex-row gap-3 mb-12 ${delay()}`} style={{ transitionDelay: '300ms' }}>
             <a href="#products"
               className="group bg-brand-green text-on-primary font-semibold text-sm px-7 py-4 rounded-full hover:brightness-110 transition-all flex items-center justify-center gap-2"
@@ -883,9 +888,22 @@ function ProductOverviewSection() {
           <div className="px-6 md:px-8 pt-8 pb-6 max-w-3xl">
             <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-3">How it comes together</div>
             <h3 className="text-xl font-medium text-ink mb-3">Individual signals in, coordinated action out.</h3>
-            <p className="text-sm text-steel leading-relaxed">
+            <p className="text-sm text-steel leading-relaxed mb-7">
               NOVA is designed to work with devices people already own, classify state into Normal, Elevated Risk, or Critical Event, and route what matters to the caregiver, the family, and the organization responsible.
             </p>
+
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                ['On the wrist', 'Smartwatches and bands already owned — Fitbit, Garmin, Apple Watch, Samsung, and others.'],
+                ['In the pocket', 'The smartphone contributes movement, activity, and location context.'],
+                ['In the room', 'Where nothing is worn, ambient WiFi sensing and home edge devices read movement and gait on their own.'],
+              ].map(([t, d]) => (
+                <div key={t} className="rounded-xl border border-hairline bg-white p-5">
+                  <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green-dark mb-2">{t}</div>
+                  <p className="text-[12.5px] leading-relaxed text-steel">{d}</p>
+                </div>
+              ))}
+            </div>
           </div>
           <Image
             src="/images/product/ecosystem-flow.jpg"
@@ -1331,12 +1349,35 @@ function InvestSection() {
           </div>
 
           <div className="glass-dark rounded-2xl border border-brand-green/25 p-7 md:p-9 flex flex-col">
-            <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green mb-5">Open for investment</div>
-            <p className="text-[0.95rem] leading-relaxed text-on-dark mb-6">
-              We are at pre-seed stage and open to conversations with investors, strategic partners, and prospective shareholders who share the ambition of preventing incidents rather than reporting them.
-            </p>
+            <div className="text-[10px] font-bold tracking-widest uppercase text-brand-green mb-5">The round</div>
+
+            <div className="flex items-baseline gap-3 mb-6">
+              <span className="text-4xl font-medium text-on-dark tracking-[-1.5px]">$250K</span>
+              <span className="text-sm text-on-dark-muted">pre-seed</span>
+            </div>
+
+            <div className="text-[10px] font-bold tracking-widest uppercase text-on-dark-muted mb-4">Use of funds</div>
+            <ul className="space-y-3 mb-7">
+              {[
+                ['MVP development', 40],
+                ['Institutional pilots', 30],
+                ['Certification & validation', 20],
+                ['Operations', 10],
+              ].map(([label, pct]) => (
+                <li key={label as string}>
+                  <div className="flex items-baseline justify-between gap-3 mb-1.5">
+                    <span className="text-[13px] text-on-dark">{label}</span>
+                    <span className="font-mono text-[11px] text-brand-green tabular-nums">{pct}%</span>
+                  </div>
+                  <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+                    <div className="h-full rounded-full bg-brand-green" style={{ width: `${pct}%` }} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+
             <p className="text-[13px] leading-relaxed text-on-dark-muted mb-8">
-              We are equally open to care organizations and insurers who would rather shape the platform as an early pilot partner than buy it finished.
+              We are open to conversations with investors, strategic partners, and prospective shareholders — and equally to care organizations and insurers who would rather shape the platform as an early pilot partner than buy it finished.
             </p>
             <div className="mt-auto flex flex-wrap gap-3">
               <a href="#partner"
